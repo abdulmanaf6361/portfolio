@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.http import JsonResponse
 from django.core import serializers
+from django.db.models import Case, When, Value, IntegerField
 
 import json
 from django.db.models import Q
@@ -67,7 +68,15 @@ def homePage(request):
 
     if request.method == 'GET':
         form = MessageForm()
-        competences = Competence.objects.all().order_by('id')
+        competences = Competence.objects.all().order_by(
+            Case(
+                When(description='Master', then=Value(1)),
+                When(description='Expert', then=Value(2)),
+                When(description='Intermediate', then=Value(3)),
+                output_field=IntegerField(),
+            ),
+            'id'
+        )
         education = Education.objects.all().order_by('id')
         experiences = Experience.objects.all().order_by('-id')
         projects = Project.objects.filter(show_in_slider=True).order_by('-id')
