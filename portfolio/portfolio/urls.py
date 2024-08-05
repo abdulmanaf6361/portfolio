@@ -22,6 +22,6 @@ urlpatterns = [
     path('search/', search, name='search'),
 
     path('dashboard/', include('dashboard.urls')),
-    path('admin/', admin.site.urls),
+    path('kasfhiufhw8ru-938240r3jir/', admin.site.urls),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
